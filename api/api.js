@@ -32,6 +32,99 @@ const loginUser = async (email, password) => {
   }
 };
 
+<<<<<<< HEAD
+=======
+const buscarAnimal = async (idUsuario, numeroCaravana) => {
+  try {
+    const response = await axios.post(`${baseURL}/buscarAnimal/`, { idUsuario, numeroCaravana });
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      console.error('Error al buscar el animal:', error.response.data);
+    } else if (error.request) {
+      console.error('Error al buscar el animal - No se recibió respuesta:', error.request);
+    } else {
+      console.error('Error al buscar el animal:', error.message);
+    }
+    throw error;
+  }
+};
+const actualizarPrenies = async (idUsuario, numeroCaravana, preniada) => {
+  try {
+    const response = await axios.put(`${baseURL}/actualizarPrenies/`, { idUsuario, numeroCaravana, preniada });
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      console.error('Error al actualizar la preñez del animal:', error.response.data);
+    } else if (error.request) {
+      console.error('Error al actualizar la preñez del animal - No se recibió respuesta:', error.request);
+    } else {
+      console.error('Error al actualizar la preñez del animal:', error.message);
+    }
+    throw error;
+  }
+};
+
+const actualizarNombreLote = async (loteId, nombre_lote) => {
+  try {
+    const response = await axios.put(`${baseURL}/actualizarNombreLote/${loteId}/`, { nombre_lote });
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      console.error('Error al actualizar el nombre del lote:', error.response.data);
+    } else {
+      console.error('Error al actualizar el nombre del lote:', error.message);
+    }
+    throw error;
+  }
+};
+const actualizarSangrado = async (idUsuario, numeroCaravana, numero_tubo) => {
+  try {
+    const response = await axios.put(`${baseURL}/actualizarSangrado/`, { idUsuario, numeroCaravana, numero_tubo });
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      console.error('Error al actualizar el sangrado del animal:', error.response.data);
+    } else if (error.request) {
+      console.error('Error al actualizar el sangrado del animal - No se recibió respuesta:', error.request);
+    } else {
+      console.error('Error al actualizar el sangrado del animal:', error.message);
+    }
+    throw error;
+  }
+};
+
+const buscarTratam = async (idUsuario, numeroCaravana) => {
+  try {
+    const response = await axios.post(`${baseURL}/buscarTratam/`, { idUsuario, numeroCaravana });
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      console.error('Error al buscar tratamiento:', error.response.data);
+    } else if (error.request) {
+      console.error('Error al buscar el tratamiento - No se recibió respuesta:', error.request);
+    } else {
+      console.error('Error al buscar tratamiento:', error.message);
+    }
+    throw error;
+  }
+};
+const buscarSan = async (idUsuario, numeroCaravana) => {
+  try {
+    const response = await axios.post(`${baseURL}/buscarSan/`, { idUsuario, numeroCaravana });
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      console.error('Error al buscar sangrado:', error.response.data);
+    } else if (error.request) {
+      console.error('Error al buscar sangrado - No se recibió respuesta:', error.request);
+    } else {
+      console.error('Error al buscar sangrado:', error.message);
+    }
+    throw error;
+  }
+};
+>>>>>>> main
 
 const getUserLotes = async (userId) => {
   try {
@@ -72,6 +165,9 @@ const createLote = async (loteData, userId) => {
     throw error;
   }
 };
+
+
+
 
 const deleteLote = async (loteId) => {
   try {
@@ -168,4 +264,8 @@ const createVacunacion = async ({ numero_lote, nombre_vacuna, fechaInicio, duran
 
 
 
+<<<<<<< HEAD
 export { baseURL, registerUser, loginUser, getUserLotes, getUserNotificaciones,createSangrado,createTacto,createVacunacion, createTratamiento, registerAnimal,createLote,deleteLote};
+=======
+export { baseURL ,actualizarPrenies ,buscarSan ,buscarTratam ,registerUser, loginUser, buscarAnimal, getUserLotes, getUserNotificaciones,createSangrado,createTacto,createVacunacion, createTratamiento, registerAnimal,createLote,deleteLote};
+>>>>>>> main

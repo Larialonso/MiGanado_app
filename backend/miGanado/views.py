@@ -8,6 +8,11 @@ from django.contrib.auth import authenticate
 from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 from django.views import View
+from rest_framework import viewsets
+from rest_framework.response import Response
+from rest_framework.decorators import action
+from .models import Lote
+from .serializers import LoteSerializer
 
 from .models import Usuario, Lote, Animal, Tratamiento, Sangrado, Notificacion, ConfigNotificaciones, Tacto,Vacunacion
 from .serializers import UsuarioSerializer, LoteSerializer, AnimalSerializer, TratamientoSerializer, SangradoSerializer, NotificacionSerializer, ConfigNotificacionesSerializer,TactoSerializer, VacunacionSerializer
@@ -32,6 +37,108 @@ class LoginView(APIView):
             # No se encontró un usuario con el correo electrónico proporcionado
             return Response({'message': 'Credenciales inválidas'}, status=status.HTTP_401_UNAUTHORIZED)
 
+<<<<<<< HEAD
+=======
+class BuscarAnimalView(APIView):
+    def post(self, request, *args, **kwargs):
+        idUsuario = request.data.get('idUsuario')
+        numCaravana = request.data.get('numeroCaravana')
+
+        try:
+            animal = Animal.objects.get(numeroCaravana=numCaravana, userId=idUsuario)
+            serializer = AnimalSerializer(animal)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        except Animal.DoesNotExist:
+            return Response({'message': 'Animal no encontrado'})
+        
+class ActualizarNombreLoteView(APIView):
+    def put(self, request, *args, **kwargs):
+        lote_id = kwargs.get('lote_id')
+        nombre_lote = request.data.get('nombre_lote')
+
+        try:
+            lote = Lote.objects.get(id=lote_id)                
+            lote.nombre_lote = nombre_lote
+            lote.save()                
+            serializer = LoteSerializer(lote)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        
+        except Lote.DoesNotExist:
+            return Response({'message': 'Lote no encontrado'}, status=status.HTTP_404_NOT_FOUND)
+
+        except Exception as e:
+            return Response({'message': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+    
+class ActualizarPreniesView(APIView):
+    def put(self, request, *args, **kwargs):
+        idUsuario = request.data.get('idUsuario')
+        numeroCaravana = request.data.get('numeroCaravana')
+        preniada = request.data.get('preniada')
+
+        try:
+            animal = Animal.objects.get(numeroCaravana=numeroCaravana, userId=idUsuario)
+            animal.preniada = preniada
+            animal.save()
+            serializer = AnimalSerializer(animal)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        except Animal.DoesNotExist:
+            return Response({'message': 'Animal no encontrado'}, status=status.HTTP_404_NOT_FOUND)
+
+        except Exception as e:
+            return Response({'message': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        
+
+class ActualizarSangradoView(APIView):
+    def put(self, request, *args, **kwargs):
+        idUsuario = request.data.get('idUsuario')
+        numeroCaravana = request.data.get('numeroCaravana')
+        numero_tubo = request.data.get('numero_tubo')
+
+        try:
+            sangrado = Sangrado.objects.get(numeroCaravana=numeroCaravana, userId=idUsuario)
+            sangrado.numero_tubo = numero_tubo
+            sangrado.save()
+            serializer = SangradoSerializer(sangrado)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        except Sangrado.DoesNotExist:
+            return Response({'message': 'sangrado no encontrado'}, status=status.HTTP_404_NOT_FOUND)
+
+        except Exception as e:
+            return Response({'message': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+class buscarTratamView(APIView):
+    def post(self, request, *args, **kwargs):
+        idUsuario = request.data.get('idUsuario')
+        numCaravana = request.data.get('numeroCaravana')
+
+        try:
+            tratamiento = Tratamiento.objects.get(numeroCaravana=numCaravana, userId=idUsuario)
+            serializer = TratamientoSerializer(tratamiento)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        except Tratamiento.DoesNotExist:
+            return Response({'message': 'tratamiento no encontrado'})
+
+class buscarSanView(APIView):
+    def post(self, request, *args, **kwargs):
+        idUsuario = request.data.get('idUsuario')
+        numCaravana = request.data.get('numeroCaravana')
+
+        try:
+            sangrado = Sangrado.objects.get(numeroCaravana=numCaravana, userId=idUsuario)
+            serializer = SangradoSerializer(sangrado)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+
+        except Sangrado.DoesNotExist:
+            return Response({'message': 'sangrado no encontrado'})
+
+
+>>>>>>> main
 class UserNotificationsView(APIView):
     def get(self, request, user_id):
         usuario = get_object_or_404(Usuario, pk=user_id)
@@ -39,6 +146,8 @@ class UserNotificationsView(APIView):
         notificaciones_data = list(notificaciones.values('tipo', 'mensaje', 'fecha'))
         return JsonResponse(notificaciones_data, safe=False)
     
+
+
 class CrearLoteView(APIView):
     def post(self, request, *args, **kwargs):
         # Verifica la cantidad de lotes existentes
